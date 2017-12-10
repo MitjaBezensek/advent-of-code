@@ -35,7 +35,6 @@ defmodule Advent9 do
     def add_current_element(",", acc), do: acc
 
     def count_garbage("<", %{started: false} = acc), do: Map.put(acc, :started, true)
-    def count_garbage("<", %{started: true} = acc), do: Map.put(acc, :result, acc.result + 1)
     def count_garbage(">", acc), do: Map.put(acc, :started, false)
     def count_garbage(_, %{started: true} = acc), do: Map.put(acc, :result, acc.result + 1)
     def count_garbage(_, acc), do: acc 
