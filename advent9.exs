@@ -8,7 +8,7 @@ defmodule Advent9 do
                 |> String.replace(~r/!./, "")
                 |> String.codepoints
 
-        removed_garbage = no_exclamations |> Enum.reduce(%{started: false, result: [], garbage_count: 0}, &remove_garbage/2)
+        removed_garbage = no_exclamations |> Enum.reduce(%{garbage_started: false, result: [], garbage_count: 0}, &remove_garbage/2)
         removed_garbage
             |> Map.fetch!(:result)
             |> count_groups
@@ -17,9 +17,9 @@ defmodule Advent9 do
         IO.inspect(Map.fetch!(removed_garbage, :garbage_count))
     end
 
-    def remove_garbage("<", %{started: false} = acc), do: Map.put(acc, :started, true)
-    def remove_garbage(">", acc), do: Map.put(acc, :started, false)
-    def remove_garbage(_, %{started: true} = acc), do: Map.put(acc, :garbage_count, acc.garbage_count + 1)
+    def remove_garbage("<", %{garbage_started: false} = acc), do: Map.put(acc, :garbage_started, true)
+    def remove_garbage(">", acc), do: Map.put(acc, :garbage_started, false)
+    def remove_garbage(_, %{garbage_started: true} = acc), do: Map.put(acc, :garbage_count, acc.garbage_count + 1)
     def remove_garbage(el, acc), do: Map.put(acc, :result, acc.result ++ [el])
 
     def count_groups(list), do: Enum.reduce(list, %{level: 0, sum: 0}, &add_current_element/2)
