@@ -33,4 +33,5 @@ defmodule Advent9 do
 end
 
 {:ok, input} = File.read("input9")
-input |> Advent9.count
+input |> Advent9.coun        # IO.inspect "after twist "
+        # IO.inspect listt
