@@ -9,10 +9,7 @@ defmodule Advent9 do
                 |> String.codepoints
 
         removed_garbage = no_exclamations |> Enum.reduce(%{garbage_started: false, result: [], garbage_count: 0}, &remove_garbage/2)
-        removed_garbage
-            |> Map.fetch!(:result)
-            |> count_groups
-            |> Map.fetch!(:sum)
+        count_groups(removed_garbage.result).sum
             |> IO.inspect
         IO.inspect(Map.fetch!(removed_garbage, :garbage_count))
     end
@@ -33,5 +30,4 @@ defmodule Advent9 do
 end
 
 {:ok, input} = File.read("input9")
-input |> Advent9.coun        # IO.inspect "after twist "
-        # IO.inspect listt
+input |> Advent9.count
