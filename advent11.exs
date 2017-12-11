@@ -5,9 +5,9 @@ defmodule Advent11 do
                 |> Enum.group_by(fn v -> v end)
                 |> Enum.map(fn {el, list} -> %{String.to_atom(el) => Enum.count(list)} end)
                 |> Enum.reduce(%{}, fn (el, acc) -> Enum.into(el, acc) end)
-        north = moves.n - moves.s
         ne = moves.ne - moves.sw
-        north + ne
+        se = moves.se - moves.nw
+        se + ne 
     end
 
     def follow_path2(input), do:
@@ -19,6 +19,6 @@ defmodule Advent11 do
     def get_length(el, %{max_value: m}), do: %{max_value: max(m, follow_path(el))}
 end
 
-input = File.read!("input11") |> String.trim |> String.split(",")
+input = File.read!("day_11_input.txt") |> String.trim |> String.split(",")
 Advent11.follow_path(input) |> IO.inspect
 Advent11.follow_path2(input) |> IO.inspect
