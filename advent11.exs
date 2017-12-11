@@ -6,9 +6,8 @@ defmodule Advent11 do
                 |> Enum.map(fn {el, list} -> %{String.to_atom(el) => Enum.count(list)} end)
                 |> Enum.reduce(%{}, fn (el, acc) -> Enum.into(el, acc) end)
         north = moves.n - moves.s
-        nw = moves.nw - moves.se
         ne = moves.ne - moves.sw
-        north + nw + (ne - nw)
+        north + ne
     end
 
     def follow_path2(input), do:
