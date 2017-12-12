@@ -1,8 +1,5 @@
 defmodule Advent12 do
-    def paths(rows) do
-        parse_connections(rows)
-            |> find_connected_nodes(["0"], []) |> Enum.count
-    end
+    def paths(rows), do: parse_connections(rows) |> find_connected_nodes(["0"], []) |> Enum.count
 
     def parse_connections(rows), do: rows |> Enum.reduce(%{}, &parse_row/2)
 
