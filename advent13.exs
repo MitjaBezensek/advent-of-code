@@ -1,11 +1,10 @@
 defmodule Advent13 do
-    def part1(rows) do
+    def part1(rows), do:
         parse(rows)
             |> Enum.filter(fn [level, range] -> is_caught?(level, range, 0) end)
             |> Enum.map(fn [level, range] -> level * range end)
             |> Enum.sum()
             |> IO.inspect
-    end
 
     def part2(rows), do: recurse(0, parse(rows)) |> IO.inspect
 
