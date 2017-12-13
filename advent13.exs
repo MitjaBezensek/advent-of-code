@@ -17,7 +17,10 @@ defmodule Advent13 do
     end
 
     def is_caught?(level, range, delay), do: rem(delay + level, 2 * (range - 1)) == 0
-    def parse(rows), do: rows |> Enum.map(fn [a, b] -> [String.to_integer(a), String.to_integer(b)] end) |> Enum.sort(fn ([_, r1], [_, r2]) -> r1 < r2 end)
+    def parse(rows), do: 
+        rows 
+            |> Enum.map(fn [a, b] -> [String.to_integer(a), String.to_integer(b)] end) 
+            |> Enum.sort(fn ([_, r1], [_, r2]) -> r1 < r2 end)
 end
 
 File.read!("input13") |> String.trim |> String.split("\n") |> Enum.map(fn row -> String.split(row, ": ") end) |> Advent13.part1
