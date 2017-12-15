@@ -1,6 +1,6 @@
 defmodule Advent13 do
   def part1(rows),
-    doX:
+    do:
       parse(rows)
       |> Enum.filter(fn [level, range] -> is_caught?(level, range, 0) end)
       |> Enum.map(fn [level, range] -> level * range end)
