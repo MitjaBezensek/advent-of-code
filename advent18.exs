@@ -4,9 +4,6 @@ defmodule Advent18 do
     execute_instructions(%{c: 0, i: i, r: %{}, freq: 0, finished: false})
   end
 
-  def parse_instruction([i, r, v]), do: {String.to_atom(i), r, v}
-  def parse_instruction([i, r]), do: {String.to_atom(i), r}
-
   def execute_instructions(%{finished: true, freq: freq}), do: freq
 
   def execute_instructions(%{c: current, i: instructions} = state) do
@@ -64,6 +61,9 @@ defmodule Advent18 do
       |> Enum.map(&String.split(&1, " ", trim: true))
       |> Enum.map(&parse_instruction/1)
       |> Enum.with_index()
+
+  def parse_instruction([i, r, v]), do: {String.to_atom(i), r, v}
+  def parse_instruction([i, r]), do: {String.to_atom(i), r}
 
   def find_instruction(current, instructions) do
     {instruction, _} = Enum.find(instructions, fn {_, index} -> index == current end)
