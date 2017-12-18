@@ -4,22 +4,6 @@ defmodule Advent18 do
     execute_instructions(%{c: 0, i: i, r: %{}, freq: 0, finished: false})
   end
 
-  def duet2(instructions) do
-    i = get_instructions(instructions)
-    first = find_instruction(0, i)
-
-    state1 = %{c: 0, i: i, r: %{"a" => 1, "b" => 2, "p" => 1}, next: first, queue: [], id: 0}
-    state2 = %{c: 0, i: i, r: %{"a" => 1, "b" => 2, "p" => 0}, next: first, queue: [], id: 1}
-    run_programs(state1, state2, 0)
-  end
-
-  def get_instructions(instructions),
-    do:
-      instructions
-      |> Enum.map(&String.split(&1, " ", trim: true))
-      |> Enum.map(&parse_instruction/1)
-      |> Enum.with_index()
-
   def parse_instruction([i, r, v]), do: {String.to_atom(i), r, v}
   def parse_instruction([i, r]), do: {String.to_atom(i), r}
 
@@ -32,6 +16,15 @@ defmodule Advent18 do
       a -> execute_instruction(a, state)
     end
     |> execute_instructions
+  end
+
+  def duet2(instructions) do
+    i = get_instructions(instructions)
+    first = find_instruction(0, i)
+
+    state1 = %{c: 0, i: i, r: %{"a" => 1, "b" => 2, "p" => 1}, next: first, queue: [], id: 0}
+    state2 = %{c: 0, i: i, r: %{"a" => 1, "b" => 2, "p" => 0}, next: first, queue: [], id: 1}
+    run_programs(state1, state2, 0)
   end
 
   def run_programs(%{next: {:rcv, _}, queue: []}, %{next: {:rcv, _}, queue: []}, count), do: count
@@ -64,6 +57,13 @@ defmodule Advent18 do
         {%{state | next: find_instruction(state.c, state.i)}, b, count}
     end
   end
+
+  def get_instructions(instructions),
+    do:
+      instructions
+      |> Enum.map(&String.split(&1, " ", trim: true))
+      |> Enum.map(&parse_instruction/1)
+      |> Enum.with_index()
 
   def find_instruction(current, instructions) do
     {instruction, _} = Enum.find(instructions, fn {_, index} -> index == current end)
