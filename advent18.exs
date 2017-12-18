@@ -90,16 +90,10 @@ defmodule Advent18 do
   def execute_snd1({:snd, r}, state), do: %{state | freq: get_value(state.r, r), c: state.c + 1}
 
   def execute_snd2(a, b, v, count) do
-    count =
-      case a.id do
-        1 -> count + 1
-        0 -> count
-      end
-
     {
       %{b | queue: b.queue ++ [get_value(a.r, v)]},
       %{a | c: a.c + 1, next: find_instruction(a.c + 1, a.i)},
-      count
+      count + a.id
     }
   end
 
