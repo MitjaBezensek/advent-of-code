@@ -8,7 +8,7 @@ defmodule Advent20 do
   end
 
   def find_smallest_acc([_, _, acc], {count, min_index, min_acc}) do
-    current_acc = get_particle_acc(acc)
+    current_acc = abs_sum(acc)
 
     if current_acc < min_acc do
       {count + 1, count, current_acc}
@@ -103,10 +103,10 @@ defmodule Advent20 do
       String.split(row, ",")
       |> Enum.map(&String.to_integer/1)
 
-  def get_particle_acc([ax, ay, az]), do: abs(ax) + abs(ay) + abs(az)
+  def abs_sum([x, y, z]), do: abs(x) + abs(y) + abs(z)
 
-  def get_distance_speed_and_acc({_, [[x, y, z], speed, acc]}),
-    do: {abs(x) + abs(y) + abs(z), get_particle_acc(speed), get_particle_acc(acc)}
+  def get_distance_speed_and_acc({_, [pos, speed, acc]}),
+    do: {abs_sum(pos), abs_sum(speed), abs_sum(acc)}
 end
 
 File.read!("input20") |> String.split("\n", trim: true) |> Advent20.part1() |> IO.inspect()
