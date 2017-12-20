@@ -75,11 +75,19 @@ defmodule Advent20 do
         |> Enum.map(&get_distance_and_acc/1)
         |> Enum.sort(fn {d1, _}, {d2, _} -> d1 > d2 end)
 
-      Enum.reduce(rest, {acc, true}, &acc_are_descending/2)
+      {_, result} = Enum.reduce(rest, {acc, true}, &acc_are_descending/2)
+      result
     end
   end
 
-  def acc_are_descending({_, acc}, {prev_acc, _}) when acc > prev_acc, do: {prev_acc, false}
+  def acc_are_descending({_, acc}, {prev_acc, true}) do
+    if acc > prev_acc do
+      {prev_acc, false}
+    else
+      {acc, true}
+    end
+  end
+
   def acc_are_descending(_, {prev_acc, a}), do: {prev_acc, a}
 
   def get_particle_info(input), do: Enum.map(input, &parse_row/1)
