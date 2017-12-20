@@ -59,12 +59,12 @@ defmodule Advent20 do
   def finished?(particles) do
     can_any_stil_turn =
       particles
-      |> Enum.map(fn {_, [_, [vx, vy, vz], [ax, ay, az]]} -> vx * ax + vy * ay + vz * az end)
+      |> Enum.flat_map(fn {_, [_, [vx, vy, vz], [ax, ay, az]]} -> [vx * ax, vy * ay, vz * az] end)
       |> Enum.any?(&(&1 < 0))
 
     can_any_come_back =
       particles
-      |> Enum.map(fn {_, [[x, y, z], [vx, vy, vz], _]} -> x * vx + y * vy + z * vz end)
+      |> Enum.flat_map(fn {_, [[x, y, z], [vx, vy, vz], _]} -> [x * vx, y * vy, z * vz] end)
       |> Enum.any?(&(&1 < 0))
 
     if can_any_stil_turn || can_any_come_back do
@@ -82,7 +82,7 @@ defmodule Advent20 do
 
   def acc_are_descending({_, acc}, {prev_acc, true}) when acc > prev_acc, do: {prev_acc, false}
 
-  def acc_are_descending({_, acc}, {prev_acc, a}), do: {acc, a}
+  def acc_are_descending({_, acc}, {_, a}), do: {acc, a}
 
   def get_particle_info(input), do: Enum.map(input, &parse_row/1)
 
