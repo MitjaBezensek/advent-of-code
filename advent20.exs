@@ -98,7 +98,9 @@ defmodule Advent20 do
       |> Enum.map(&String.to_integer/1)
 
   def get_particle_acc([ax, ay, az]), do: abs(ax) + abs(ay) + abs(az)
-  def get_distance_and_acc({_, [[x, y, z], _, acc]}), do: {x + y + z, get_particle_acc(acc)}
+
+  def get_distance_and_acc({_, [[x, y, z], _, acc]}),
+    do: {abs(x) + abs(y) + abs(z), get_particle_acc(acc)}
 end
 
 File.read!("input20") |> String.split("\n", trim: true) |> Advent20.part1() |> IO.inspect()
