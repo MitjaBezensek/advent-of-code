@@ -80,7 +80,14 @@ defmodule Advent20 do
     end
   end
 
-  def acc_are_descending({_, acc}, {prev_acc, true}) when acc > prev_acc, do: {prev_acc, false}
+  def acc_are_descending({_, acc}, {prev_acc, true}) do
+    if acc > prev_acc do
+      {prev_acc, false}
+    else
+      {acc, true}
+    end
+  end
+
   def acc_are_descending(_, {prev_acc, a}), do: {prev_acc, a}
 
   def get_particle_info(input), do: Enum.map(input, &parse_row/1)
