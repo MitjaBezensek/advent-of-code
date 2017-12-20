@@ -70,19 +70,23 @@ defmodule Advent20 do
     if can_any_stil_turn || can_any_come_back do
       false
     else
-      [{_, acc} | rest] =
+      [{_, speed, acc} | rest] =
         particles
-        |> Enum.map(&get_distance_and_acc/1)
-        |> Enum.sort(fn {d1, _}, {d2, _} -> d1 > d2 end)
+        |> Enum.map(&get_distance_speed_and_acc/1)
+        |> Enum.sort(fn {d1, _, _}, {d2, _, _} -> d1 > d2 end)
 
-      {_, result} = Enum.reduce(rest, {acc, true}, &acc_are_descending/2)
+      {_, _, result} = Enum.reduce(rest, {speed, acc, true}, &acc_are_descending/2)
       result
     end
   end
 
-  def acc_are_descending({_, acc}, {prev_acc, true}) when acc > prev_acc, do: {prev_acc, false}
+  def acc_are_descending({_, _, acc}, {prev_speed, prev_acc, true}) when acc > prev_acc,
+    do: {prev_speed, prev_acc, false}
 
-  def acc_are_descending({_, acc}, {_, a}), do: {acc, a}
+  def acc_are_descending({_, speed, _}, {prev_speed, prev_acc, true}) when speed > prev_speed,
+    do: {prev_speed, prev_acc, false}
+
+  def acc_are_descending({_, speed, acc}, {_, _, a}), do: {speed, acc, a}
 
   def get_particle_info(input), do: Enum.map(input, &parse_row/1)
 
@@ -101,8 +105,8 @@ defmodule Advent20 do
 
   def get_particle_acc([ax, ay, az]), do: abs(ax) + abs(ay) + abs(az)
 
-  def get_distance_and_acc({_, [[x, y, z], _, acc]}),
-    do: {abs(x) + abs(y) + abs(z), get_particle_acc(acc)}
+  def get_distance_speed_and_acc({_, [[x, y, z], speed, acc]}),
+    do: {abs(x) + abs(y) + abs(z), get_particle_acc(speed), get_particle_acc(acc)}
 end
 
 File.read!("input20") |> String.split("\n", trim: true) |> Advent20.part1() |> IO.inspect()
